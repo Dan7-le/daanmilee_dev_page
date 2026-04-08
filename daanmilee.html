@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daanmilee — Your Shared Adventure</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF8F5;
+    --warm-white: #FFFFFF;
+    --stone: #8C8680;
+    --dark: #1C1A18;
+    --accent: #C4956A;
+    --accent-light: #F0E6D9;
+    --border: rgba(28,26,24,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: rgba(250,248,245,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--dark);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); font-style: italic; }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--stone);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--dark); }
+
+  .nav-cta {
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    color: var(--accent) !important;
+    border: 1px solid var(--accent);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    transition: background 0.2s, color 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: var(--accent) !important;
+    color: white !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-text { animation: fadeUp 0.9s ease both; }
+
+  .eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--stone);
+    max-width: 400px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .btn-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--dark);
+    color: white;
+    padding: 0.9rem 2rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+  .btn-ghost {
+    color: var(--stone);
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--dark); }
+
+  /* PHOTO COLLAGE */
+  .hero-visual {
+    position: relative;
+    height: 520px;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .photo-card {
+    position: absolute;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .photo-card:hover { transform: rotate(0deg) scale(1.02) !important; }
+
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Placeholder photo cards using CSS */
+  .card-1 {
+    width: 220px; height: 280px;
+    top: 20px; left: 60px;
+    transform: rotate(-3deg);
+    z-index: 3;
+  }
+
+  .card-2 {
+    width: 180px; height: 220px;
+    top: 40px; left: 260px;
+    transform: rotate(2deg);
+    z-index: 2;
+  }
+
+  .card-3 {
+    width: 200px; height: 250px;
+    top: 230px; left: 140px;
+    transform: rotate(-1deg);
+    z-index: 4;
+  }
+
+  .card-4 {
+    width: 160px; height: 200px;
+    top: 260px; left: 320px;
+    transform: rotate(3deg);
+    z-index: 1;
+  }
+
+  .photo-fill {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.06em;
+    font-style: italic;
+  }
+
+  .fill-1 { background: linear-gradient(135deg, #D4A574, #C4956A); }
+  .fill-2 { background: linear-gradient(135deg, #A8C5B5, #7BA89A); }
+  .fill-3 { background: linear-gradient(135deg, #B8A9C9, #9B8BB5); }
+  .fill-4 { background: linear-gradient(135deg, #C9B5A8, #B09080); }
+
+  .tag {
+    position: absolute;
+    bottom: 10px; left: 10px;
+    background: rgba(255,255,255,0.9);
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 2rem;
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.03em;
+  }
+
+  /* FEATURES */
+  .features {
+    background: white;
+    padding: 6rem 3rem;
+  }
+
+  .features-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 4rem;
+    line-height: 1.2;
+  }
+
+  h2 em { font-style: italic; color: var(--accent); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .feature-card {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .feature-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .feature-icon {
+    width: 44px; height: 44px;
+    background: var(--accent-light);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+  }
+
+  .feature-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+    color: var(--stone);
+    line-height: 1.7;
+  }
+
+  /* HOW IT WORKS */
+  .how {
+    padding: 6rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 3rem;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .step h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+
+  .step p { font-size: 0.92rem; color: var(--stone); }
+
+  /* CTA SECTION */
+  .cta-section {
+    background: var(--dark);
+    padding: 6rem 3rem;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section h2 em { color: var(--accent); }
+
+  .cta-section p {
+    color: rgba(255,255,255,0.5);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-light {
+    background: white;
+    color: var(--dark);
+    padding: 0.9rem 2.2rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-light:hover { background: var(--accent); color: white; transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer {
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--stone);
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--dark);
+  }
+
+  .footer-logo span { color: var(--accent); font-style: italic; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 3rem; }
+    .hero-visual { height: 340px; }
+    .card-1 { width: 150px; height: 190px; top: 10px; left: 20px; }
+    .card-2 { width: 130px; height: 160px; top: 20px; left: 170px; }
+    .card-3 { width: 140px; height: 175px; top: 160px; left: 80px; }
+    .card-4 { width: 120px; height: 150px; top: 175px; left: 220px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .features, .how, .cta-section { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Daan<span>milee</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#start" class="nav-cta">Get started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Your shared world</p>
+    <h1>Every photo.<br>Every <em>adventure.</em><br>Together.</h1>
+    <p class="hero-desc">Daanmilee is your private shared space — a beautiful photo album and adventure journal built just for the two of you.</p>
+    <div class="btn-group">
+      <a href="#start" class="btn-primary">Start your album</a>
+      <a href="#features" class="btn-ghost">See how it works →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="photo-card card-1">
+      <div class="photo-fill fill-1">golden hour</div>
+      <span class="tag">📍 Cape Town</span>
+    </div>
+    <div class="photo-card card-2">
+      <div class="photo-fill fill-2">by the sea</div>
+      <span class="tag">📍 Camps Bay</span>
+    </div>
+    <div class="photo-card card-3">
+      <div class="photo-fill fill-3">weekend escape</div>
+      <span class="tag">📍 Winelands</span>
+    </div>
+    <div class="photo-card card-4">
+      <div class="photo-fill fill-4">our table</div>
+      <span class="tag">🍽 date night</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <p class="section-label">What you get</p>
+    <h2>Made for <em>moments</em> that matter</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📷</div>
+        <h3>Photo Albums</h3>
+        <p>Upload and organise your favourite photos into beautiful, private albums — sorted by date, place, or mood.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✍️</div>
+        <h3>Adventure Journal</h3>
+        <p>Write journal entries together. Capture how a trip felt, not just how it looked. Your memories, in your words.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h3>Adventure Map</h3>
+        <p>Pin every place you've been together on a living map. Watch your world grow adventure by adventure.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Completely Private</h3>
+        <p>Just the two of you. No public feed, no algorithm, no strangers. Your space is yours alone.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💌</div>
+        <h3>Little Notes</h3>
+        <p>Leave each other small notes attached to photos or memories — like a love letter tucked inside an album.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗓</div>
+        <h3>Memory Timeline</h3>
+        <p>Scroll back through your story — from your first adventure to your most recent one, beautifully laid out.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <p class="section-label">Getting started</p>
+  <h2>Simple as <em>sharing</em> a photo</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Create your space</h3>
+        <p>Sign up and give your Daanmilee a name — something that's just yours. It takes less than a minute.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <h3>Invite her</h3>
+        <p>Send a private invite link to your girlfriend. She joins, and your shared world is ready to fill.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <h3>Start adding memories</h3>
+        <p>Upload photos, write journal entries, pin places on your map. Build your story one memory at a time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="start">
+  <h2>Start your <em>story</em> today</h2>
+  <p>Free to start. No credit card needed. Just the two of you.</p>
+  <a href="#" class="btn-light">Create your Daanmilee</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Daan<span>milee</span></div>
+  <div>Made with love, for love &nbsp;♡</div>
+</footer>
+
+</body>
+</html>
